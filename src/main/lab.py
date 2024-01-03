@@ -21,7 +21,7 @@ that the app accepts tech-support queries, and rejects all other queries.
 """
 TODO: Change the prompt below to create a persona for the LLM as described above.
 """
-prompt = "You are a tech support specialist. Only answer questions that relate to tech support. All other questions should be politely declined and the question should not be answered."
+prompt = ""
 
 """
 There is no need to change the below function. It will properly use the prompt above &
