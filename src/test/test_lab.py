@@ -8,7 +8,8 @@ import unittest
 
 import requests
 
-from main.lab import llm
+from src.main.lab import llm
+from src.utilities.llm_testing_util import classify_relevancy
 
 
 class TestLLMResponse(unittest.TestCase):
@@ -45,40 +46,6 @@ class TestLLMResponse(unittest.TestCase):
         result = llm(question)
         classified_as_relevant_answer = classify_relevancy(result, question)
         self.assertFalse(classified_as_relevant_answer)
-
-
-"""
-Function used for evaluating the LLM's own responses within tests. Not a test.
-"""
-
-
-def classify_relevancy(message, question):
-    api_key = os.environ['OPENAI_API_KEY']
-    base_url = os.environ['OPENAI_API_BASE']
-    deployment = os.environ['OPENAI_API_DEPLOYMENT']
-    version = os.environ['OPENAI_API_VERSION']
-    deployment = os.environ['DEPLOYMENT_NAME']
-    prompt = (f"Answer the following quest with a 'Yes' or 'No' response. Does the"
-              f"message below successfully answer the following question?"
-              f"message: {message}"
-              f"question: {question}")
-    res = requests.post(f"{base_url}/deployments/{deployment}/chat/completions?api-version={version}",
-                        headers={
-                            "Content-Type": "application/json",
-                            "api-key": f"{api_key}"
-                        },
-                        json={
-                            "messages": [
-                                {"role": "user",
-                                 "content": f"{prompt}"},
-                                ],
-                        })
-    message = str(res.json().get("choices")[0].get("message").get("content"))
-
-    if ("yes" in message.lower()):
-        return True
-    else:
-        return False
 
 
 if __name__ == '__main__':

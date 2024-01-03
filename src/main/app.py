@@ -1,5 +1,5 @@
 import requests
-from main.lab import llm
+from src.main.lab import llm
 
 """
 This file will contain some sample code to send the output of the functions in lab.py to the 
